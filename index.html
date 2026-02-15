@@ -1,1 +1,190 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ферма Онлайн</title>
 
+<style>
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: url("grass.JPG") center/cover no-repeat fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.game {
+  background: rgba(0,0,0,0.35);
+  border-radius: 24px;
+  padding: 20px;
+  width: 95%;
+  max-width: 420px;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.stats {
+  color: #fff;
+  text-align: center;
+  margin-bottom: 14px;
+  font-size: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  background: #3a7a3a;
+  padding: 10px;
+  border-radius: 16px;
+}
+
+.plot {
+  background: #7b4a1f;
+  border-radius: 14px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.plot:hover { transform: scale(1.05); }
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.controls button {
+  flex: 1;
+  border: none;
+  border-radius: 14px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.wheat { background: #fff; }
+button.carrot { background: #fff; }
+button.tomato { background: #fff; }
+
+.level {
+  text-align: center;
+  color: #fff;
+  margin-top: 8px;
+}
+</style>
+</head>
+
+<body>
+<div class="game">
+  <h1>🌾 Ферма Онлайн</h1>
+  <div class="stats">💰 <span id="money">500</span></div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="controls">
+    <button class="wheat" onclick="selectCrop('🌾', 10, 5000)">Пшеница</button>
+    <button class="carrot" onclick="selectCrop('🥕', 20, 8000)">Морков</button>
+    <button class="tomato" onclick="selectCrop('🍅', 30, 12000)">Домати</button>
+  </div>
+
+  <div class="level">⭐ Ниво: <span id="level">1</span></div>
+</div>
+
+<script>
+const grid = document.getElementById("grid");
+const moneyEl = document.getElementById("money");
+const levelEl = document.getElementById("level");
+
+let money = parseInt(localStorage.getItem("money")) || 500;
+let level = parseInt(localStorage.getItem("level")) || 1;
+let selected = null;
+
+moneyEl.textContent = money;
+levelEl.textContent = level;
+
+const plots = JSON.parse(localStorage.getItem("plots")) || [];
+
+function save() {
+  localStorage.setItem("money", money);
+  localStorage.setItem("level", level);
+  localStorage.setItem("plots", JSON.stringify(plots));
+}
+
+function selectCrop(icon, price, time) {
+  selected = { icon, price, time };
+}
+
+function createPlot(i) {
+  const div = document.createElement("div");
+  div.className = "plot";
+
+  const data = plots[i];
+
+  if (data) {
+    if (Date.now() >= data.ready) {
+      div.textContent = data.icon;
+      div.onclick = () => harvest(i);
+    } else {
+      div.textContent = "⏳";
+    }
+  } else {
+    div.onclick = () => plant(i);
+  }
+
+  grid.appendChild(div);
+}
+
+function plant(i) {
+  if (!selected) return;
+  if (money < selected.price) return alert("Нямаш пари!");
+
+  money -= selected.price;
+  moneyEl.textContent = money;
+
+  plots[i] = {
+    icon: selected.icon,
+    ready: Date.now() + selected.time
+  };
+
+  save();
+  render();
+}
+
+function harvest(i) {
+  money += 50;
+  moneyEl.textContent = money;
+  delete plots[i];
+
+  if (money >= level * 300) {
+    level++;
+    levelEl.textContent = level;
+  }
+
+  save();
+  render();
+}
+
+function render() {
+  grid.innerHTML = "";
+  for (let i = 0; i < 12; i++) createPlot(i);
+}
+
+setInterval(render, 1000);
+render();
+</script>
+</body>
+</html>
