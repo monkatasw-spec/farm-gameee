@@ -1,108 +1,90 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Ферма Онлайн</title>
 
 <style>
-* {
+/* ==== ОСНОВА ==== */
+html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  height: 100%;
   font-family: Arial, sans-serif;
 }
 
-/* ===== ФОН СЪС СНИМКА ===== */
+/* ==== ФОН С ТРЕВА ==== */
 body {
-  min-height: 100vh;
-  background: url("grass.jpg") center center / cover no-repeat fixed;
+  background: url("grass.JPG") no-repeat center center fixed;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* ===== ОСНОВЕН ПАНЕЛ ===== */
+/* ==== КОНТЕЙНЕР ==== */
 .game {
-  width: 90%;
-  max-width: 420px;
+  width: 360px;
   background: rgba(255,255,255,0.85);
-  border-radius: 28px;
-  padding: 16px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-}
-
-/* ===== HEADER ===== */
-.header {
+  border-radius: 25px;
+  padding: 20px;
+  box-sizing: border-box;
   text-align: center;
-  margin-bottom: 12px;
 }
 
-.header h1 {
-  font-size: 30px;
+/* ==== ЗАГЛАВИЕ ==== */
+h1 {
+  margin: 10px 0;
 }
 
+/* ==== ПАРИ ==== */
 .money {
   font-size: 22px;
-  margin-top: 4px;
+  margin-bottom: 15px;
 }
 
-/* ===== ЦЕНТРАЛНО ПОЛЕ ===== */
+/* ==== ПОЛЕ ==== */
 .field {
   background: #2e7d32;
-  border-radius: 22px;
-  padding: 16px;
-  display: flex;
-  justify-content: center;
+  border-radius: 25px;
+  padding: 15px;
 }
 
-/* ===== GRID – ЦЕНТЪР ===== */
+/* ==== МРЕЖА ==== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 70px);
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
-/* ===== ПАРЦЕЛ ===== */
+/* ==== ПОЛЕТА ==== */
 .plot {
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(#8d5524, #6d3f1f);
+  background: linear-gradient(#8d5524, #6d3b1e);
   border-radius: 18px;
+  aspect-ratio: 1 / 1;
+}
+
+/* ==== БУТОНИ ==== */
+.buttons {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  cursor: pointer;
-  transition: transform 0.15s ease;
+  justify-content: space-around;
+  margin-top: 15px;
 }
 
-.plot:active {
-  transform: scale(0.92);
-}
-
-/* ===== БУТОНИ ===== */
-.controls {
-  display: flex;
-  margin-top: 16px;
-}
-
-.controls button {
-  flex: 1;
-  margin: 0 4px;
-  padding: 10px;
+.buttons button {
+  padding: 10px 14px;
+  border-radius: 12px;
   border: none;
-  border-radius: 14px;
-  background: white;
   font-size: 16px;
-  font-weight: bold;
+  background: #ffffff;
   color: #1976d2;
+  cursor: pointer;
 }
 
-/* ===== НИВО ===== */
+/* ==== НИВО ==== */
 .level {
-  margin-top: 10px;
-  text-align: center;
+  margin-top: 12px;
   font-size: 18px;
 }
 </style>
@@ -111,76 +93,25 @@ body {
 <body>
 
 <div class="game">
-  <div class="header">
-    <h1>🌾 Ферма Онлайн</h1>
-    <div class="money">💰 <span id="money">500</span></div>
-  </div>
+  <h1>🌾 Ферма Онлайн</h1>
+  <div class="money">💰 500</div>
 
   <div class="field">
-    <div class="grid" id="grid"></div>
+    <div class="grid">
+      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
+      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
+      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
+    </div>
   </div>
 
-  <div class="controls">
-    <button onclick="selectCrop('🌾',5)">Пшеница</button>
-    <button onclick="selectCrop('🥕',8)">Морков</button>
-    <button onclick="selectCrop('🍅',12)">Домати</button>
+  <div class="buttons">
+    <button>🌾 Пшеница</button>
+    <button>🥕 Морков</button>
+    <button>🍅 Домати</button>
   </div>
 
-  <div class="level">⭐ Ниво: <span id="level">1</span></div>
+  <div class="level">⭐ Ниво: 1</div>
 </div>
-
-<script>
-const grid = document.getElementById("grid");
-const moneyEl = document.getElementById("money");
-const levelEl = document.getElementById("level");
-
-let money = 500;
-let level = 1;
-let selectedCrop = null;
-let selectedCost = 0;
-
-for (let i = 0; i < 12; i++) {
-  const plot = document.createElement("div");
-  plot.className = "plot";
-  plot.dataset.state = "empty";
-  plot.onclick = () => handlePlot(plot);
-  grid.appendChild(plot);
-}
-
-function selectCrop(crop, cost) {
-  selectedCrop = crop;
-  selectedCost = cost;
-}
-
-function handlePlot(plot) {
-  if (plot.dataset.state === "empty" && selectedCrop && money >= selectedCost) {
-    money -= selectedCost;
-    moneyEl.textContent = money;
-    plot.textContent = "⏳";
-    plot.dataset.state = "growing";
-
-    setTimeout(() => {
-      plot.textContent = selectedCrop;
-      plot.dataset.state = "ready";
-    }, 3000);
-  } 
-  else if (plot.dataset.state === "ready") {
-    plot.textContent = "";
-    plot.dataset.state = "empty";
-    money += 15;
-    moneyEl.textContent = money;
-    updateLevel();
-  }
-}
-
-function updateLevel() {
-  const newLevel = Math.floor(money / 200) + 1;
-  if (newLevel !== level) {
-    level = newLevel;
-    levelEl.textContent = level;
-  }
-}
-</script>
 
 </body>
 </html>
