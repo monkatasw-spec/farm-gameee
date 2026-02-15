@@ -6,14 +6,13 @@
   <title>Ферма Онлайн</title>
 
   <style>
-    /* === ФОН – ТРЕВА === */
     body {
       margin: 0;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: url("grass.JPG"); /* ✅ ТОЧНО С ГЛАВНИ БУКВИ */
+      background-image: url("grass.JPG");
       background-size: cover;
       background-position: center;
       font-family: Arial, sans-serif;
@@ -25,15 +24,26 @@
       color: black;
     }
 
+    /* === ГОРЕН ПАНЕЛ === */
+    .top-panel {
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 20px;
+      padding: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
     h1 {
-      margin: 10px 0;
+      margin: 5px 0;
+      font-size: 26px;
     }
 
     .money {
       font-size: 20px;
-      margin-bottom: 20px;
+      font-weight: bold;
     }
 
+    /* === ПОЛЕТА === */
     .grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -46,59 +56,66 @@
       height: 70px;
       background: linear-gradient(#8d5524, #6d3b1e);
       border-radius: 18px;
+      box-shadow: inset 0 4px 6px rgba(255,255,255,0.2),
+                  0 6px 10px rgba(0,0,0,0.35);
+    }
+
+    /* === ДОЛЕН ПАНЕЛ === */
+    .bottom-panel {
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 22px;
+      padding: 14px;
+      margin-top: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
     }
 
     .buttons {
       display: flex;
       justify-content: space-around;
-      margin-top: 20px;
     }
 
     .buttons button {
       font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 12px;
+      padding: 8px 14px;
+      border-radius: 14px;
       border: none;
       background: white;
+      font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
     }
 
     .level {
-      margin-top: 15px;
+      margin-top: 10px;
       font-size: 18px;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
   <div class="game">
-    <h1>🌾 Ферма Онлайн</h1>
-    <div class="money">💰 500</div>
+
+    <div class="top-panel">
+      <h1>🌾 Ферма Онлайн</h1>
+      <div class="money">💰 500</div>
+    </div>
 
     <div class="grid">
-      <div class="plot"></div>
-      <div class="plot"></div>
-      <div class="plot"></div>
-      <div class="plot"></div>
-
-      <div class="plot"></div>
-      <div class="plot"></div>
-      <div class="plot"></div>
-      <div class="plot"></div>
-
-      <div class="plot"></div>
-      <div class="plot"></div>
-      <div class="plot"></div>
-      <div class="plot"></div>
+      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
+      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
+      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
     </div>
 
-    <div class="buttons">
-      <button>🌾 Пшеница</button>
-      <button>🥕 Морков</button>
-      <button>🍅 Домати</button>
+    <div class="bottom-panel">
+      <div class="buttons">
+        <button>🌾 Пшеница</button>
+        <button>🥕 Морков</button>
+        <button>🍅 Домати</button>
+      </div>
+      <div class="level">⭐ Ниво: 1</div>
     </div>
 
-    <div class="level">⭐ Ниво: 1</div>
   </div>
 </body>
 </html>
