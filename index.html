@@ -6,19 +6,17 @@
 <title>Ферма Онлайн</title>
 
 <style>
-/* ===== RESET ===== */
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
   font-family: Arial, sans-serif;
 }
 
-/* ===== BODY / ФОН ===== */
+/* ===== ФОН СЪС СНИМКА ===== */
 body {
   min-height: 100vh;
-  background: url("grass.JPG") no-repeat center center fixed;
-  background-size: cover;
+  background: url("grass.jpg") center center / cover no-repeat fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,66 +24,66 @@ body {
 
 /* ===== ОСНОВЕН ПАНЕЛ ===== */
 .game {
-  width: 95%;
+  width: 90%;
   max-width: 420px;
-  background: rgba(0,0,0,0.25);
-  border-radius: 24px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 28px;
   padding: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
 
 /* ===== HEADER ===== */
 .header {
   text-align: center;
-  color: white;
   margin-bottom: 12px;
 }
 
 .header h1 {
-  font-size: 32px;
-  margin-bottom: 6px;
+  font-size: 30px;
 }
 
 .money {
   font-size: 22px;
+  margin-top: 4px;
 }
 
-/* ===== ПОЛЕ ===== */
+/* ===== ЦЕНТРАЛНО ПОЛЕ ===== */
 .field {
-  background: #2f7d32;
-  border-radius: 20px;
-  padding: 14px;
+  background: #2e7d32;
+  border-radius: 22px;
+  padding: 16px;
+  display: flex;
+  justify-content: center;
 }
 
-/* ===== GRID ===== */
+/* ===== GRID – ЦЕНТЪР ===== */
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, 70px);
   gap: 12px;
 }
 
 /* ===== ПАРЦЕЛ ===== */
 .plot {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: linear-gradient(#8d5524, #6f3f1d);
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(#8d5524, #6d3f1f);
   border-radius: 18px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 36px;
+  justify-content: center;
+  font-size: 32px;
   cursor: pointer;
-  user-select: none;
   transition: transform 0.15s ease;
 }
 
 .plot:active {
-  transform: scale(0.94);
+  transform: scale(0.92);
 }
 
 /* ===== БУТОНИ ===== */
 .controls {
   display: flex;
-  justify-content: space-between;
   margin-top: 16px;
 }
 
@@ -93,20 +91,18 @@ body {
   flex: 1;
   margin: 0 4px;
   padding: 10px;
-  font-size: 16px;
   border: none;
   border-radius: 14px;
   background: white;
-  color: #1976d2;
+  font-size: 16px;
   font-weight: bold;
-  cursor: pointer;
+  color: #1976d2;
 }
 
 /* ===== НИВО ===== */
 .level {
-  text-align: center;
-  color: white;
   margin-top: 10px;
+  text-align: center;
   font-size: 18px;
 }
 </style>
@@ -125,9 +121,9 @@ body {
   </div>
 
   <div class="controls">
-    <button onclick="selectCrop('🌾', 5)">Пшеница</button>
-    <button onclick="selectCrop('🥕', 8)">Морков</button>
-    <button onclick="selectCrop('🍅', 12)">Домати</button>
+    <button onclick="selectCrop('🌾',5)">Пшеница</button>
+    <button onclick="selectCrop('🥕',8)">Морков</button>
+    <button onclick="selectCrop('🍅',12)">Домати</button>
   </div>
 
   <div class="level">⭐ Ниво: <span id="level">1</span></div>
@@ -143,16 +139,12 @@ let level = 1;
 let selectedCrop = null;
 let selectedCost = 0;
 
-const plots = [];
-
-// създаване на полета
 for (let i = 0; i < 12; i++) {
   const plot = document.createElement("div");
   plot.className = "plot";
   plot.dataset.state = "empty";
   plot.onclick = () => handlePlot(plot);
   grid.appendChild(plot);
-  plots.push(plot);
 }
 
 function selectCrop(crop, cost) {
@@ -171,17 +163,17 @@ function handlePlot(plot) {
       plot.textContent = selectedCrop;
       plot.dataset.state = "ready";
     }, 3000);
-  }
+  } 
   else if (plot.dataset.state === "ready") {
     plot.textContent = "";
     plot.dataset.state = "empty";
     money += 15;
     moneyEl.textContent = money;
-    checkLevel();
+    updateLevel();
   }
 }
 
-function checkLevel() {
+function updateLevel() {
   const newLevel = Math.floor(money / 200) + 1;
   if (newLevel !== level) {
     level = newLevel;
