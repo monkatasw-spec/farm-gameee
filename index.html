@@ -1,117 +1,108 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Ферма Онлайн</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ферма Онлайн</title>
 
-<style>
-/* ==== ОСНОВА ==== */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
-}
+  <style>
+    /* === ФОН – САМО ТРЕВА === */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url("grass.jpg"); /* 🔴 СЛОЖИ ТУК ТВОЯТА ТРЕВА */
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+    }
 
-/* ==== ФОН С ТРЕВА ==== */
-body {
-  background: url("grass.JPG") no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    /* === ОСНОВЕН КОНТЕЙНЕР (БЕЗ ФОН) === */
+    .game {
+      width: 360px;
+      text-align: center;
+      color: black;
+    }
 
-/* ==== КОНТЕЙНЕР ==== */
-.game {
-  width: 360px;
-  background: rgba(255,255,255,0.85);
-  border-radius: 25px;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: center;
-}
+    h1 {
+      margin: 10px 0;
+    }
 
-/* ==== ЗАГЛАВИЕ ==== */
-h1 {
-  margin: 10px 0;
-}
+    .money {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
 
-/* ==== ПАРИ ==== */
-.money {
-  font-size: 22px;
-  margin-bottom: 15px;
-}
+    /* === МРЕЖА – САМО ПОЛЕТА === */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 20px auto;
+    }
 
-/* ==== ПОЛЕ ==== */
-.field {
-  background: #2e7d32;
-  border-radius: 25px;
-  padding: 15px;
-}
+    /* === КАФЯВИ ПОЛЕТА === */
+    .plot {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(#8d5524, #6d3b1e);
+      border-radius: 18px;
+    }
 
-/* ==== МРЕЖА ==== */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
+    /* === БУТОНИ === */
+    .buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
 
-/* ==== ПОЛЕТА ==== */
-.plot {
-  background: linear-gradient(#8d5524, #6d3b1e);
-  border-radius: 18px;
-  aspect-ratio: 1 / 1;
-}
+    .buttons button {
+      font-size: 16px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: none;
+      background: white;
+      cursor: pointer;
+    }
 
-/* ==== БУТОНИ ==== */
-.buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
-}
-
-.buttons button {
-  padding: 10px 14px;
-  border-radius: 12px;
-  border: none;
-  font-size: 16px;
-  background: #ffffff;
-  color: #1976d2;
-  cursor: pointer;
-}
-
-/* ==== НИВО ==== */
-.level {
-  margin-top: 12px;
-  font-size: 18px;
-}
-</style>
+    .level {
+      margin-top: 15px;
+      font-size: 18px;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="game">
+    <h1>🌾 Ферма Онлайн</h1>
+    <div class="money">💰 500</div>
 
-<div class="game">
-  <h1>🌾 Ферма Онлайн</h1>
-  <div class="money">💰 500</div>
-
-  <div class="field">
     <div class="grid">
-      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
-      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
-      <div class="plot"></div><div class="plot"></div><div class="plot"></div><div class="plot"></div>
+      <div class="plot"></div>
+      <div class="plot"></div>
+      <div class="plot"></div>
+      <div class="plot"></div>
+
+      <div class="plot"></div>
+      <div class="plot"></div>
+      <div class="plot"></div>
+      <div class="plot"></div>
+
+      <div class="plot"></div>
+      <div class="plot"></div>
+      <div class="plot"></div>
+      <div class="plot"></div>
     </div>
+
+    <div class="buttons">
+      <button>🌾 Пшеница</button>
+      <button>🥕 Морков</button>
+      <button>🍅 Домати</button>
+    </div>
+
+    <div class="level">⭐ Ниво: 1</div>
   </div>
-
-  <div class="buttons">
-    <button>🌾 Пшеница</button>
-    <button>🥕 Морков</button>
-    <button>🍅 Домати</button>
-  </div>
-
-  <div class="level">⭐ Ниво: 1</div>
-</div>
-
 </body>
 </html>
